@@ -23,6 +23,9 @@ class Details extends Component {
                         </ListGroup>
                     </Col>                    
                 </Row>
+
+                {/*POST reviews */}
+
                 <div className="mt-5 blog-comments">
                 <Tabs defaultActiveKey="Comments" id="uncontrolled-tab-example">
                   <Tab eventKey="Comments" title="Comments">
@@ -61,6 +64,7 @@ class Details extends Component {
 
                         <hr/>
 
+                        {/* GET show reviews/ PUT reviews */}
                         <div className="mt-5">
                           <h6>{this.state.comments.length} {this.state.comments.length === 1?'Comment':'Comments'}</h6>
                           {this.state.comments.length ? this.state.comments.map( comment =>
