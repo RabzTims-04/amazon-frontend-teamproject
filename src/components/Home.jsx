@@ -1,39 +1,52 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-class Home extends Component {
+const Home = (props)=> {
+
+    const [product, setProduct] = useState(null)
+
+    useEffect(()=>{
+        const getProducts = async () => {
+            let response = await fetch("http://localhost:3002/products")
+            let products = await response.json()
+            console.log('products', products )
+            setProduct(products)
+        }
+        getProducts()
+    },[])
 
 
-
-    render() {
+   
 
         return (
 
             <Container className="mt-5">
-                <Row>
-                    <Col>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="holder.js/100px180" />
+                <Row className=" ">
+                {  product?.map( product => 
+                    <Col md={4} className=''>
+                   
+                        <Card style={{ width: '18rem' }}  key={product._id} onClick={() => props.history.push('/details/' + product._id)} >
+                            <Card.Img variant="top" src={ product?.imageUrl} />
                             <Card.Body>
-                                <Card.Title>{/* {product.name} */}</Card.Title>
+                                <Card.Title>{ product?.name}</Card.Title>
                                 <Card.Text>
-                                    <span>{/* {product.price} */}</span>
-                                    <p>{/* {product.brand} */}</p>
+                                    <span>{product?.price} </span>
+                                    <p>{product?.brand}</p>
                                 </Card.Text>
-                                <Link to="/details/:id">
+                                <Link to={`/details/${product._id}`}>
                                     <Button variant="primary">Details</Button>
                                 </Link>
                             </Card.Body>
-                        </Card>
-
+                        </Card> 
                     </Col>
+    )}
 
                 </Row>
                 
             </Container>
         );
-    }
+    
 }
 
 export default Home;
